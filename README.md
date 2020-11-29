@@ -1,7 +1,16 @@
 # one_shot_pwn
+
 一键部署pwn基础配置
 
 **[-]没有针对Ubuntu20.04的优化**
+
+## 版本
+
+目前只支持
+
+Ubuntu16.04  |  Ubuntu18.04  |  Ubuntu20.04
+
+Ubuntu20.04的python环境可能会出现问题
 
 ### 安装选项
 
