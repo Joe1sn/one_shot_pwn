@@ -19,7 +19,7 @@ echo "[-]code_name> $code_name"
 echo "[-]hardware Architecture> $hw_arch"
 echo "[-]cmdpath> $path"
 
-if [ $code_name != 'xenial' ]; then
+if [ $code_name != 'xenial' ] || [ $code_name != 'bionic' ]; then
 	echo "[+]Sorry, This is system is not support"
 	exit
 fi
@@ -68,7 +68,6 @@ if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
 			# 预发布软件源，不建议启用
 			sudo echo "# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list
 			sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list
-
 		elif [ $release_num = '20.04' ]; then
 			echo "[-]USing version>> 20.04"
 			sudo echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list
@@ -91,17 +90,23 @@ if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
 		fi
 	fi
 fi
-
 sudo echo "[*]Writting is done"
 
 #2-安装python2/3 python-pip  git vim gdb
 echo "[?]Install vim git python python-pip gdb? (y/n) "
 read Xstep
 if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
-	echo "[*]Install softwares"
-	sudo apt update
-	sudo apt install vim git python python-pip gdb
-	echo "[*]Softwares installed"
+	if [ $release_num = '16.04' ] || [ $release_num = '18.04' ]; then
+		echo "[*]Install softwares"
+		sudo apt update
+		sudo apt install vim git python python-pip gdb
+		echo "[*]Softwares installed"
+	elif [ $release_num = '20.04' ]; then
+		echo "[*]Install softwares"
+		sudo apt update
+		sudo apt install vim git python3 python3-pip gdb
+		echo "[*]Softwares installed"
+	fi
 fi
 
 #3-安装pwntools
@@ -110,7 +115,7 @@ read Xstep
 if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
 	echo "[?]In China's mainland? (y/n) "
 	read Xstep
-	if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
+	if [ $Xstep = "y" ] || [ $Xstep = "Y" ] && [ $release_num != '20.04' ]; then
 		echo "[*]Install pwntools"
 		#python换源
 		sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
@@ -217,7 +222,7 @@ if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then
 	echo "[+]Download the file through the link below"
 	echo "https://wws.lanzous.com/ivFyIivw98d"
 	echo "[+]Please remove file to folder > "
-	sudo pwd
+	echo $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 	echo "[?]Install sublime_text_3 now? (y/n) "
 	read Xstep
 	if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then	
@@ -238,6 +243,7 @@ else
 	sudo apt-get update
 	sudo apt-get install sublime-text
 fi
+echo "[*]sublime usage: subl <filename>"
 
 echo "[*]All settal done"
 echo "[*]enjoy your Pwn journey"
