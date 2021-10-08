@@ -220,7 +220,7 @@ echo "[?]In China's mainland? (y/n) "
 read Xstep
 if [ $Xstep = "y" ] || [ $Xstep = "Y" ]; then	
 	echo "[+]Download the file through the link below"
-	echo "https://wws.lanzous.com/ivFyIivw98d"
+	echo "https://wws.lanzoui.com/ivFyIivw98d"
 	echo "[+]Please remove file to folder > "
 	echo $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 	echo "[?]Install sublime_text_3 now? (y/n) "
